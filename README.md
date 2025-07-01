@@ -48,6 +48,7 @@ For offline Storage uses Hive, a lightweight key-value database, to persist user
 
 
 ⚖️ Trade-offs & Known Limitations
+
 The Country Visit Planner app aims to offer a clean and maintainable structure, but some trade-offs were made due to external constraints. One notable limitation is the lack of pagination. The app fetches the complete list of countries in a single call from the REST Countries API, as the API itself does not support pagination or partial data requests.
 
 Additionally, search and filter operations are performed on the full dataset in-memory. While efficient for the current scale, it may need optimization for handling larger data. The app currently uses Hive for local storage, which is suitable for lightweight use but may not scale well for more complex relational data needs.
