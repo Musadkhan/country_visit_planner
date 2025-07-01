@@ -32,33 +32,55 @@ class VisitedCountriesTab extends StatelessWidget {
           return const Center(child: Text('No visited countries match the filter.'));
         }
 
-        return ListView.builder(
-          itemCount: visits.length,
-          itemBuilder: (context, index) {
-            final visit = visits[index];
-            return Card(
-              elevation: 20,
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(visit.flagUrl),
+        // Group by region (continent)
+        final groupedVisits = <String, List<VisitedCountryModel>>{};
+
+        for (var visit in visits) {
+          groupedVisits.putIfAbsent(visit.region, () => []).add(visit);
+        }
+
+        return ListView(
+          children: groupedVisits.entries.map((entry) {
+            final continent = entry.key;
+            final countries = entry.value;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Text(
+                    continent,
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  title: Text(
-                    visit.name,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    '${_formatDate(visit.startDate)} → ${_formatDate(visit.endDate)}\n'
-                        'Satisfaction: ${visit.satisfactionScore}/5\n',
-                  ),
-                  isThreeLine: true,
-                  onTap: () => showVisitDetailDialog(context, visit),
                 ),
-              ),
+                ...countries.map((visit) {
+                  return Card(
+                    elevation: 20,
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(visit.flagUrl),
+                        ),
+                        title: Text(
+                          visit.name,
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          '${_formatDate(visit.startDate)} → ${_formatDate(visit.endDate)}\n'
+                              'Satisfaction: ${visit.satisfactionScore}/5',
+                        ),
+                        isThreeLine: true,
+                        onTap: () => showVisitDetailDialog(context, visit),
+                      ),
+                    ),
+                  );
+                }),
+              ],
             );
-          },
+          }).toList(),
         );
       },
     );

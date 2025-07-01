@@ -24,4 +24,15 @@ class VisitedController extends ChangeNotifier {
     _visited = box.values.toList();
     notifyListeners();
   }
+
+  Map<String, List<VisitedCountryModel>> groupByRegion() {
+    final grouped = <String, List<VisitedCountryModel>>{};
+
+    for (final country in visitedList) {
+      final region = country.region ?? 'Unknown';
+      grouped.putIfAbsent(region, () => []).add(country);
+    }
+
+    return grouped;
+  }
 }
