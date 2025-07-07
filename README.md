@@ -4,7 +4,7 @@ A Flutter app that helps users plan and track visits to countries with filtering
 
 
 ## 📦 Download APK
-    https://i.diawi.com/6kDasX
+    https://i.diawi.com/vodqJL
 You can directly download the latest android APK 
 
 
