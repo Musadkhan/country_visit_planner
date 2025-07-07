@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // 🌍 Global Filter Bar (applies to all tabs)
+            //  Global Filter Bar for all tabs on top
             FilterBar(
               continents: continents,
               sortOptions: sortOptions,
